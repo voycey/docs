@@ -563,6 +563,17 @@ associations and filter them by conditions::
                 ->where(['Comments.approved' => true]);
         }
     ]);
+    
+To pass in a variable that is outside of the scope of the contain closure you should utilize the ```use``` identifier
+    
+    $query = $articles->find()->contain([
+        'Comments' => function ($q) use ($type) {
+           return $q
+                ->select(['body', 'author_id'])
+                ->where(['Comments.type' => $type]);
+        }
+    ]);
+
 
 This also works for pagination at the Controller level::
 
